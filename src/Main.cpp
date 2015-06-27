@@ -25,6 +25,7 @@ freely, subject to the following restrictions:
 #include "ThreadBarrier.hpp"
 #include "VoxelOctree.hpp"
 #include "PlyLoader.hpp"
+#include "IsoSurfaceLoader.hpp"
 #include "VoxelData.hpp"
 #include "Events.hpp"
 #include "Timer.hpp"
@@ -308,23 +309,28 @@ int main(int argc, char *argv[]) {
     }
 
     Timer timer;
-    
-    if (std::string(argv[1]) == "-builder") {
-        ThreadUtils::startThreads(ThreadUtils::idealThreadCount());
 
-        if (mode) { //generate on disk
-            std::unique_ptr<PlyLoader> loader(new PlyLoader(inputFile.c_str()));
-            loader->convertToVolume("models/temp.voxel", resolution, dataMemory);
-            std::unique_ptr<VoxelData> data(new VoxelData("models/temp.voxel", dataMemory));
-            std::unique_ptr<VoxelOctree> tree(new VoxelOctree(data.get()));
-            tree->save(outputFile.c_str());
-        } 
-        else {      //generate in memory
-            std::unique_ptr<PlyLoader> loader(new PlyLoader(inputFile.c_str()));
-            std::unique_ptr<VoxelData> data(new VoxelData(loader.get(), resolution, dataMemory));
-            std::unique_ptr<VoxelOctree> tree(new VoxelOctree(data.get()));
-            tree->save(outputFile.c_str());
-        }
+    if (std::string(argv[1]) == "-builder") {
+        std::cout << "building...\n";
+        ThreadUtils::startThreads(ThreadUtils::idealThreadCount());
+        std::unique_ptr<IsoSurfaceLoader> loader(new IsoSurfaceLoader());
+        std::unique_ptr<VoxelData> data(new VoxelData(loader.get(), resolution, dataMemory));
+        std::unique_ptr<VoxelOctree> tree(new VoxelOctree(data.get()));
+        tree->save(outputFile.c_str());
+
+        // if (mode) { //generate on disk
+        //     std::unique_ptr<PlyLoader> loader(new PlyLoader(inputFile.c_str()));
+        //     loader->convertToVolume("models/temp.voxel", resolution, dataMemory);
+        //     std::unique_ptr<VoxelData> data(new VoxelData("models/temp.voxel", dataMemory));
+        //     std::unique_ptr<VoxelOctree> tree(new VoxelOctree(data.get()));
+        //     tree->save(outputFile.c_str());
+        // }
+        // else {      //generate in memory
+        //     std::unique_ptr<PlyLoader> loader(new PlyLoader(inputFile.c_str()));
+        //     std::unique_ptr<VoxelData> data(new VoxelData(loader.get(), resolution, dataMemory));
+        //     std::unique_ptr<VoxelOctree> tree(new VoxelOctree(data.get()));
+        //     tree->save(outputFile.c_str());
+        // }
         timer.bench("Octree initialization took");
         return 0;
     }

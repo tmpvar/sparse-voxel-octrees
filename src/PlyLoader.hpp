@@ -98,8 +98,6 @@ public:
     PlyLoader(const char *path);
 
     void suggestedDimensions(int sideLength, int &w, int &h, int &d);
-
-    size_t blockMemRequirement(int w, int h, int d);
     void setupBlockProcessing(int sideLength, int blockW, int blockH, int blockD,
             int volumeW, int volumeH, int volumeD);
     void processBlock(uint32 *data, int x, int y, int z, int w, int h, int d);

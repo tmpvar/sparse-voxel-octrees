@@ -373,10 +373,6 @@ void PlyLoader::triangleToVolume(uint32 *data, const Triangle &t, int offX, int 
     }
 }
 
-size_t PlyLoader::blockMemRequirement(int w, int h, int d) {
-    size_t elementCost = sizeof(uint8);
-    return elementCost*size_t(w)*size_t(h)*size_t(d);
-}
 
 void findBestBlockPartition(int &w, int &h, int &d, int numThreads)
 {
