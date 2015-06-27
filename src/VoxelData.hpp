@@ -33,11 +33,11 @@ freely, subject to the following restrictions:
 #include <memory>
 #include <vector>
 
-class PlyLoader;
+class Loader;
 
 class VoxelData {
     FILE *_dataStream;
-    PlyLoader *_loader;
+    Loader *_loader;
 
     int _dataW;
     int _dataH;
@@ -100,7 +100,7 @@ class VoxelData {
 
 public:
     VoxelData(const char *path, size_t mem);
-    VoxelData(PlyLoader *loader, int sideLength, size_t mem);
+    VoxelData(Loader *loader, int sideLength, size_t mem);
     ~VoxelData();
 
     inline uint32 getVoxel(int x, int y, int z) const {

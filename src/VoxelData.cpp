@@ -22,7 +22,7 @@ freely, subject to the following restrictions:
 */
 
 #include "VoxelData.hpp"
-#include "PlyLoader.hpp"
+#include "Loader.hpp"
 #include "Debug.hpp"
 
 #include "thread/ThreadUtils.hpp"
@@ -47,7 +47,7 @@ VoxelData::VoxelData(const char *path, size_t mem) : _loader(0) {
     }
 }
 
-VoxelData::VoxelData(PlyLoader *loader, int sideLength, size_t mem) : _dataStream(0), _loader(loader) {
+VoxelData::VoxelData(Loader *loader, int sideLength, size_t mem) : _dataStream(0), _loader(loader) {
     loader->suggestedDimensions(sideLength, _dataW, _dataH, _dataD);
     init(mem);
     int size = int(_maxCacheableSize);
