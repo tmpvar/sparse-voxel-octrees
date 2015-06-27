@@ -28,6 +28,7 @@ freely, subject to the following restrictions:
 
 #include "IntTypes.hpp"
 #include "Timer.hpp"
+#include "Loader.hpp"
 
 #include <memory>
 #include <vector>
@@ -52,7 +53,7 @@ struct Triangle {
     Triangle(const Vertex &_v1, const Vertex &_v2, const Vertex &_v3);
 };
 
-class PlyLoader {
+class PlyLoader: public Loader {
     bool _hasNormals;
     bool _isBigEndian;
 
